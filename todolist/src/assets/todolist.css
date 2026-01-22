@@ -1,0 +1,36 @@
+.h1{
+    text-align: center;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+.listColumn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 350px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.id {
+    width: 30px;
+    font-weight: bold;
+    color: #555;
+}
+.text {
+    display: flex;
+    width: 300px;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #666;
+}
+.todo-container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+}
