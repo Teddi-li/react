@@ -19,6 +19,11 @@
     font-weight: bold;
     color: #555;
 }
+.space{
+    margin-left: auto;
+    font-size: 0.7rem;
+    color: #999;
+}
 .text {
     display: flex;
     width: 300px;

@@ -42,6 +42,7 @@ const [myList, setmylist] = useState([
         <div className="listColumn" key={item.id}>
           <div className="id">{item.id}</div>
           <div className="text">{item.text}</div>
+          <div className="space">UTC : {new Date().toUTCString()}</div>
           <button 
           className="btn"
            onClick={() => setmylist( prev=>
