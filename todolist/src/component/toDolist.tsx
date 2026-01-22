@@ -2,10 +2,10 @@ import { useState } from 'react';
 import '../assets/todolist.css';
 export function TodoList() {
 const [myList, setmylist] = useState([
-    { id: 1, text: "sleep" },
-    { id: 2, text: "eat" },
-    { id: 3, text: "code" },
-    { id: 4, text: "repeat" },
+    { id: 1, text: "sleep", time: "2026-01-02T03:15:00.123Z" },
+    { id: 2, text: "eat", time: "2026-01-24T04:18:00.123Z" },
+    { id: 3, text: "code", time: "2026-01-22T03:10:00.123Z" },
+    { id: 4, text: "repeat", time: "2026-01-28T08:14:00.123Z" },
   ]);
   const [value, setvalue] = useState("");
 
@@ -20,7 +20,8 @@ const [myList, setmylist] = useState([
           ...e,
           { 
             id:e.length+1,
-            text: value
+            text: value,
+            time: new Date().toISOString()
           }
         ]);
         setvalue("");
@@ -42,7 +43,15 @@ const [myList, setmylist] = useState([
         <div className="listColumn" key={item.id}>
           <div className="id">{item.id}</div>
           <div className="text">{item.text}</div>
-          <div className="space">UTC : {new Date().toUTCString()}</div>
+          <div className="space">
+            {new Date(item.time).toLocaleString("en-US", {
+                timeZone: "Asia/Tokyo",
+                month: "2-digit",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              })}</div>
           <button 
           className="btn"
            onClick={() => setmylist( prev=>
