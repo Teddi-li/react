@@ -8,12 +8,14 @@ export function TodoList() {
   ]);
 
   const [value, setValue] = useState("");
-  const [input, setInput] = useState(""); // MM/DD HH:mm
+  const [input, setInput] = useState(""); 
+  const [datetime, setDate] = useState(""); 
+  
 
   const handleSave = () => {
-    const date = parseUserInput(input);
-    if (!date || !value) return;
-    const utcTime = date.toISOString(); // ✅ local → UTC
+    const date = new Date(`${datetime}T${input}`);
+    const utcTime = date.toISOString(); 
+    
     setMyList(prev => [
       ...prev,
       {
@@ -26,27 +28,102 @@ export function TodoList() {
     setValue("");
     setInput("");
   };
+const moveDown = (id: number) => {
+  setMyList(prev => {
+    let index = -1;
+
+    // 1️⃣ Find the index of the item
+    for (let i = 0; i < prev.length; i++) {
+      if (prev[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    // 2️⃣ If not found or already at bottom → do nothing
+    if (index === -1 || index === prev.length - 1) {
+      return prev;
+    }
+
+    // 3️⃣ Copy the array (do NOT mutate state)
+    const newList = [];
+    for (let i = 0; i < prev.length; i++) {
+      newList[i] = prev[i];
+    }
+
+    // 4️⃣ Swap current item with the one below it
+    const temp = newList[index];
+    newList[index] = newList[index + 1];
+    newList[index + 1] = temp;
+
+    // 5️⃣ Reassign IDs sequentially
+    for (let i = 0; i < newList.length; i++) {
+      newList[i] = {
+        ...newList[i],
+        id: i + 1
+      };
+    }
+
+    return newList;
+  });
+};
+const moveUp = (id:number) => {
+  setMyList(prev => {
+    let index = -1;
+
+    // 1️⃣ Find index of the clicked item
+    for (let i = 0; i < prev.length; i++) {
+      if (prev[i].id === id) {
+        index = i;
+        break;
+      }
+    }
+
+    // 2️⃣ If not found or already at top → do nothing
+    if (index === -1 || index === 0) {
+      return prev;
+    }
+
+    // 3️⃣ Copy array (no direct mutation)
+    const newList = [];
+    for (let i = 0; i < prev.length; i++) {
+      newList[i] = prev[i];
+    }
+
+    // 4️⃣ Swap with the item above
+    const temp = newList[index];
+    newList[index] = newList[index - 1];
+    newList[index - 1] = temp;
+
+    // 5️⃣ Reassign IDs
+    for (let i = 0; i < newList.length; i++) {
+      newList[i] = {
+        ...newList[i],
+        id: i + 1
+      };
+    }
+
+    return newList;
+  });
+};
+
 
   return (
     <div className="todo-container">
-      {/* Todo text */}
       <input
         placeholder="todo"
         value={value}
         onChange={e => setValue(e.target.value)}
       />
 
-      {/* Date & time input */}
-      <input
-        placeholder="MM/DD HH:mm"
-        value={input}
-        onChange={e => setInput(e.target.value)}
-      />
+
+      <input type="date"  onChange={e => setDate(e.target.value)}/>
+      <input type="time"  onChange={e => setInput(e.target.value)} />
+      
 
       <button className="btn-time" onClick={handleSave}>
         save
       </button>
-
       <h1 className="h1">To Do List</h1>
 
       {myList.map(item => (
@@ -76,18 +153,14 @@ export function TodoList() {
           >
             delete
           </button>
+          <div className="updownbtn">
+          <button className="updown" onClick={() => moveUp(item.id)}>⬆</button>
+          <button className="updown" onClick={() => moveDown(item.id)}>⬇</button>
+
+              </div>
         </div>
       ))}
     </div>
   );
-}
-function parseUserInput(input: string): Date | null {
-  // Expects input in "MM/DD HH:mm" format
-  const match = input.match(/^(\d{2})\/(\d{2}) (\d{2}):(\d{2})$/);
-  if (!match) return null;
-  const [, month, day, hour, minute] = match.map(Number);
-  const year = new Date().getFullYear();
-  const date = new Date(year, month - 1, day, hour, minute);
-  return isNaN(date.getTime()) ? null : date;
 }
 
