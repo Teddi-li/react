@@ -1,3 +1,4 @@
+
 type TodoItemProps = {
   item: {
     id: number;
@@ -7,16 +8,15 @@ type TodoItemProps = {
   };
   moveUp: (id: number) => void;
   moveDown: (id: number) => void;
+  setMyList: React.Dispatch<React.SetStateAction<any[]>>;
 };
 
 export default function TodoItem({
   item,
   moveUp,
-  moveDown
+  moveDown,
+  setMyList
 }: TodoItemProps) {
-    function setMyList(arg0: (prev: any) => any): void {
-        throw new Error("Function not implemented.");
-    }
 
   return (
     <div className="listColumn">

@@ -12,28 +12,9 @@ export function ToDoList(){
     { id: 1, text: "sleep", time: "2026-01-02T03:15:00.123Z", status: "doing" },
     { id: 2, text: "eat", time: "2026-01-24T04:18:00.123Z", status: "done" },
   ]);
-  const [value, setValue] = useState("");
-  const [input, setInput] = useState(""); 
-  const [datetime, setDate] = useState(""); 
-  const [option, setoption] = useState("doing");
-  
 
 
-  const handleSave = () => {
-    const date = new Date(`${datetime}T${input}`);
-    const utcTime = date.toISOString(); 
-    setMyList(prev => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        text: value,
-        time: utcTime,
-        status: option
-      }
-    ]);
 
-    setValue("");
-  };
   const moveDown = (id: number) => {
   setMyList(prev => {
     let index = -1;
@@ -48,7 +29,7 @@ export function ToDoList(){
       return prev;
     }
 
-    const newList = [];
+    const newList: ToDoList[] = [];
     for (let i = 0; i < prev.length; i++) {
       newList[i] = prev[i];
     }
@@ -78,7 +59,7 @@ const moveUp = (id:number) => {
     if (index === -1 || index === 0) {
       return prev;
     }
-    const newList = [];
+    const newList: ToDoList[] = [];
     for (let i = 0; i < prev.length; i++) {
       newList[i] = prev[i];
     }
@@ -96,16 +77,14 @@ const moveUp = (id:number) => {
   });
 };
 
+
+
     return {
-        value,
-        setInput,
-        setDate,
-        setoption,
-        handleSave,
         moveUp,
         moveDown,
         setMyList,
-        myList,
-        setValue
-    };      
+        myList
+
+      };      
 }
+
