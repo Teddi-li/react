@@ -1,111 +1,21 @@
-import { useState } from "react";
 import "../assets/todolist.css";
+import { useNavigate } from "react-router-dom";
+import { ToDoList } from "../hooks/todolist";
 
-export function TodoList() {
-  const [myList, setMyList] = useState([
-    { id: 1, text: "sleep", time: "2026-01-02T03:15:00.123Z" },
-    { id: 2, text: "eat", time: "2026-01-24T04:18:00.123Z" },
-  ]);
-
-  const [value, setValue] = useState("");
-  const [input, setInput] = useState(""); 
-  const [datetime, setDate] = useState(""); 
-  
-
-  const handleSave = () => {
-    const date = new Date(`${datetime}T${input}`);
-    const utcTime = date.toISOString(); 
-    
-    setMyList(prev => [
-      ...prev,
-      {
-        id: prev.length + 1,
-        text: value,
-        time: utcTime
-      }
-    ]);
-
-    setValue("");
-    setInput("");
-  };
-const moveDown = (id: number) => {
-  setMyList(prev => {
-    let index = -1;
-
-    // 1️⃣ Find the index of the item
-    for (let i = 0; i < prev.length; i++) {
-      if (prev[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-
-    // 2️⃣ If not found or already at bottom → do nothing
-    if (index === -1 || index === prev.length - 1) {
-      return prev;
-    }
-
-    // 3️⃣ Copy the array (do NOT mutate state)
-    const newList = [];
-    for (let i = 0; i < prev.length; i++) {
-      newList[i] = prev[i];
-    }
-
-    // 4️⃣ Swap current item with the one below it
-    const temp = newList[index];
-    newList[index] = newList[index + 1];
-    newList[index + 1] = temp;
-
-    // 5️⃣ Reassign IDs sequentially
-    for (let i = 0; i < newList.length; i++) {
-      newList[i] = {
-        ...newList[i],
-        id: i + 1
-      };
-    }
-
-    return newList;
-  });
-};
-const moveUp = (id:number) => {
-  setMyList(prev => {
-    let index = -1;
-
-    // 1️⃣ Find index of the clicked item
-    for (let i = 0; i < prev.length; i++) {
-      if (prev[i].id === id) {
-        index = i;
-        break;
-      }
-    }
-
-    // 2️⃣ If not found or already at top → do nothing
-    if (index === -1 || index === 0) {
-      return prev;
-    }
-
-    // 3️⃣ Copy array (no direct mutation)
-    const newList = [];
-    for (let i = 0; i < prev.length; i++) {
-      newList[i] = prev[i];
-    }
-
-    // 4️⃣ Swap with the item above
-    const temp = newList[index];
-    newList[index] = newList[index - 1];
-    newList[index - 1] = temp;
-
-    // 5️⃣ Reassign IDs
-    for (let i = 0; i < newList.length; i++) {
-      newList[i] = {
-        ...newList[i],
-        id: i + 1
-      };
-    }
-
-    return newList;
-  });
-};
+export default function TodoList() {
+  const navigate = useNavigate();
+  const {
+    myList,
+    setMyList,
+    value,
+    setValue,
+    setInput,
+    setDate, 
+    setoption, 
+    handleSave,
+    moveUp,
+    moveDown
+  } = ToDoList();
 
 
   return (
@@ -119,7 +29,10 @@ const moveUp = (id:number) => {
 
       <input type="date"  onChange={e => setDate(e.target.value)}/>
       <input type="time"  onChange={e => setInput(e.target.value)} />
-      
+      <select onChange={e => setoption(e.target.value)}>
+        <option value="doing">Doing</option>
+        <option value="done">Done</option>
+      </select>
 
       <button className="btn-time" onClick={handleSave}>
         save
@@ -140,6 +53,7 @@ const moveUp = (id:number) => {
               hour12: true
             })}
           </div>
+          <div className="status">{item.status}</div>
 
           <button
             className="btn"

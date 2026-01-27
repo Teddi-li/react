@@ -38,6 +38,13 @@
     flex-direction: column;
     
 }
+.status{
+    width: 60px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #3b546e;
+    margin-right: 10px;
+}
 .text {
     display: flex;
     width: 300px;
