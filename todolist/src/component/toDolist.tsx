@@ -5,7 +5,6 @@ import TodoItem from "./todocomponent";
 export default function TodoList() {
   const {
     myList,
-    setMyList,
     value,
     setValue,
     setInput,
@@ -43,7 +42,6 @@ export default function TodoList() {
               <TodoItem
                   key={item.id}
                   item={item}
-                  setMyList={setMyList}
                   moveUp={moveUp}
                   moveDown={moveDown}
                   />
@@ -58,7 +56,6 @@ export default function TodoList() {
               <TodoItem
                   key={item.id}
                   item={item}
-                  setMyList={setMyList}
                   moveUp={moveUp}
                   moveDown={moveDown}
                   />

@@ -5,17 +5,19 @@ type TodoItemProps = {
     time: string;
     status: string;
   };
-  setMyList: React.Dispatch<React.SetStateAction<any[]>>;
   moveUp: (id: number) => void;
   moveDown: (id: number) => void;
 };
 
 export default function TodoItem({
   item,
-  setMyList,
   moveUp,
   moveDown
 }: TodoItemProps) {
+    function setMyList(arg0: (prev: any) => any): void {
+        throw new Error("Function not implemented.");
+    }
+
   return (
     <div className="listColumn">
       <div className="text">{item.text}</div>
@@ -38,8 +40,8 @@ export default function TodoItem({
         onClick={() =>
           setMyList(prev =>
             prev
-              .filter(e => e.id !== item.id)
-              .map((e, index) => ({ ...e, id: index + 1 }))
+              .filter((e: { id: number; }) => e.id !== item.id)
+              .map((e: any, index: number) => ({ ...e, id: index + 1 }))
           )
         }
       >
