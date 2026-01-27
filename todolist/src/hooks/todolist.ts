@@ -1,5 +1,12 @@
 import { useState } from "react";
 
+export type ToDoList = {
+  id: number;
+  text: string;
+  time: string;
+  status: string;
+};
+
 export function ToDoList(){
   const [myList, setMyList] = useState([
     { id: 1, text: "sleep", time: "2026-01-02T03:15:00.123Z", status: "doing" },
@@ -8,7 +15,7 @@ export function ToDoList(){
   const [value, setValue] = useState("");
   const [input, setInput] = useState(""); 
   const [datetime, setDate] = useState(""); 
-  const [option, setoption] = useState("doing | done");
+  const [option, setoption] = useState("doing");
   
 
 
@@ -26,7 +33,6 @@ export function ToDoList(){
     ]);
 
     setValue("");
-    setInput("");
   };
   const moveDown = (id: number) => {
   setMyList(prev => {
